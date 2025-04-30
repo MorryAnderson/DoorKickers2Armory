@@ -195,7 +195,7 @@ function statistics = CalcWeaponDoctrineStatistics( ...
         D = statistics_basic.curved.sampling_distance(i);
 
         statistics_basic.curved.attack_type_index(i) = num_final_attack_types;
-        statistics_basic.curved.scope_attack_modifier_index(i) = num_scope_attack_modifiers;
+        statistics_basic.curved.scope_attack_modifier_index(i) = 0;
 
         for n=1:num_final_attack_types
             if (D <= final_attack_types.range_max(n))
@@ -205,7 +205,7 @@ function statistics = CalcWeaponDoctrineStatistics( ...
         end
 
         for n=1:num_scope_attack_modifiers
-            if (D <= scope_attack_modifiers.range_max(n))
+            if (D <= scope_attack_modifiers.range_max(n) && D > scope_attack_modifiers.range_min(n))
                 statistics_basic.curved.scope_attack_modifier_index(i) = n;
                 break;
             end
@@ -218,24 +218,36 @@ function statistics = CalcWeaponDoctrineStatistics( ...
         scope_attack_index = statistics_basic.curved.scope_attack_modifier_index(i);
         x = statistics_basic.curved.sampling_distance(i);
 
+        % scope modifier
+        if (scope_attack_index == 0)
+            scope_aimTimeAdd = 0;
+            scope_attack_modifiers_resetTimeAdd = 0;
+            scope_attack_modifiers_accuracyAdd = 0;
+            scope_attack_modifiers_critChanceAdd = 0;
+        else 
+            scope_start_x = scope_attack_modifiers.range_min(scope_attack_index);
+            scope_end_x   = scope_attack_modifiers.range_max(scope_attack_index);
+            scope_start_y = scope_attack_modifiers.minAimTimeAdd(scope_attack_index);
+            scope_end_y   = scope_attack_modifiers.maxAimTimeAdd(scope_attack_index);
+
+            scope_aimTimeAdd  = linearInterpolationZero(scope_start_x, scope_end_x, scope_start_y, scope_end_y, x);
+            scope_attack_modifiers_resetTimeAdd  = scope_attack_modifiers.resetTimeAdd(scope_attack_index);
+            scope_attack_modifiers_accuracyAdd   = scope_attack_modifiers.accuracyAdd(scope_attack_index);
+            scope_attack_modifiers_critChanceAdd = scope_attack_modifiers.critChanceAdd(scope_attack_index);
+        end
+
         % aimTime
         start_x = final_attack_types.range_min(attack_index);
         end_x   = final_attack_types.range_max(attack_index);
         start_y = final_attack_types.minAimTime(attack_index);
         end_y   = final_attack_types.maxAimTime(attack_index);
 
-        scope_start_x = scope_attack_modifiers.range_min(scope_attack_index);
-        scope_end_x   = scope_attack_modifiers.range_max(scope_attack_index);
-        scope_start_y = scope_attack_modifiers.minAimTimeAdd(scope_attack_index);
-        scope_end_y   = scope_attack_modifiers.maxAimTimeAdd(scope_attack_index);
+        attack_aimTime = linearInterpolationHold(start_x, end_x, start_y, end_y, x);
 
-        attack_aim_time = linearInterpolationHold(start_x, end_x, start_y, end_y, x);
-        scope_aim_time  = linearInterpolationHold(scope_start_x, scope_end_x, scope_start_y, scope_end_y, x);
-
-        statistics_basic.curved.aimTime(i) = attack_aim_time + scope_aim_time;
+        statistics_basic.curved.aimTime(i) = attack_aimTime + scope_aimTimeAdd;
 
         % resetTime
-        statistics_basic.curved.resetTime(i) = final_attack_types.resetTime(attack_index) + scope_attack_modifiers.resetTimeAdd(scope_attack_index);
+        statistics_basic.curved.resetTime(i) = final_attack_types.resetTime(attack_index) + scope_attack_modifiers_resetTimeAdd;
 
         % accuracy
         start_x = gun_info.accuracyStartDist;
@@ -244,7 +256,7 @@ function statistics = CalcWeaponDoctrineStatistics( ...
         end_y   = gun_info.accuracyEnd;
         statistics_basic.curved.accuracy(i) = linearInterpolationHold(start_x, end_x, start_y, end_y, x) ...
                                               + final_attack_types.accuracyAdd(attack_index) ...
-                                              + scope_attack_modifiers.accuracyAdd(scope_attack_index) ...
+                                              + scope_attack_modifiers_accuracyAdd ...
                                               + ammo_info.accuracyAdd;
         statistics_basic.curved.accuracy(i) = statistics_basic.curved.accuracy(i) .* ammo_info.accuracyMultiplier ./ 100;                    
         statistics_basic.curved.followupShotAccuracy(i) = statistics_basic.curved.accuracy(i) ...
@@ -268,7 +280,7 @@ function statistics = CalcWeaponDoctrineStatistics( ...
         start_y = ammo_info.criticalStart;
         end_y   = ammo_info.criticalEnd;
         statistics_basic.curved.critChance(i) = linearInterpolationHold(start_x, end_x, start_y, end_y, x) ...
-                                                + scope_attack_modifiers.critChanceAdd(scope_attack_index) ...                                  
+                                                + scope_attack_modifiers_critChanceAdd ...                                  
                                                 + final_attack_types.critChanceAdd(attack_index);
         statistics_basic.curved.critChance(i) = statistics_basic.curved.critChance(i) .* statistics_basic.constant.numPellets;
 
