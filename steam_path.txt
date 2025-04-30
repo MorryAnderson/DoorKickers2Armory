@@ -1,0 +1,2 @@
+D:\Games\Steam
+# 第一行写Steam的安装路径（该路径下应该有steam.exe文件）。不要写错，否则程序会出错
