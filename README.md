@@ -35,3 +35,5 @@
 击杀耗时取决于：
 
 瞄准时间（aimTime）、子弹伤害（damage）、射速（roundsPerSecond）、恢复时间（resetTime）、最小射击次数（minShots）、最大射击次数（maxShots）
+
+当勾选了“暴击即死”，则在暴击率为100%时，击杀耗时 = 瞄准时间。
