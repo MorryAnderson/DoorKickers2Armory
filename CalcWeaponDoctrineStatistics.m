@@ -188,8 +188,8 @@ function statistics = CalcWeaponDoctrineStatistics( ...
     statistics_basic.curved.damage               = zeros(statistics_basic.curved.num_points, 1);
     statistics_basic.curved.penetration          = zeros(statistics_basic.curved.num_points, 1);
 
-    statistics_basic.curved.ttk                  = zeros(statistics_basic.curved.num_points, 1);
-
+    statistics_basic.curved.worst_ttk            = zeros(statistics_basic.curved.num_points, 1);
+    statistics_basic.curved.best_ttk             = zeros(statistics_basic.curved.num_points, 1);
 
     for i=1:statistics_basic.curved.num_points
         D = statistics_basic.curved.sampling_distance(i);
