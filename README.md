@@ -4,9 +4,11 @@
 
 这是一个用于分析《破门而入2》这款游戏中枪械参数的Matlab App。
 
+## 运行
+
 运行此程序需要先安装Matlab Runtime （2022a）
 
-## 文件依赖
+下载release中的压缩包for_redistribution_files_only.zip，解压。
 
 请先修改steam_path.txt中的路径
 
@@ -16,7 +18,7 @@
 
 确保doctrines.csv和gun_length.csv放在DoorKickers2Armory.exe同目录下，这两个文件需要手动更新数据。
 
-## 二次开发
+## 开发
 
 若要开发此程序，请先确保你安装了Matlab（建议2022a以及之后的版本）。
 
@@ -24,7 +26,7 @@
 
 在Matlab中打开DoorKickersArmory.prj以将最新程序重新打包为exe。
 
-## 击杀耗时
+## 提示
 
 曲线类型中的击杀耗时指的是：
 
