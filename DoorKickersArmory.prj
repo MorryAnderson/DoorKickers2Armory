@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
-  <configuration build-checksum="707214790" file="E:\Morry4C\life\Documents\My Games\DoorKickers2\_Matlab\DoorKickersArmory.prj" location="E:\Morry4C\life\Documents\My Games\DoorKickers2\_Matlab" name="DoorKickersArmory" preferred-package-location="E:\Morry4C\life\Documents\My Games\DoorKickers2\_Matlab\DoorKickersArmory\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.standalone" target-name="Application Compiler">
+  <configuration build-checksum="4151528562" file="E:\Morry4C\life\Documents\My Games\DoorKickers2\_Matlab\DoorKickersArmory.prj" location="E:\Morry4C\life\Documents\My Games\DoorKickers2\_Matlab" name="DoorKickersArmory" preferred-package-location="E:\Morry4C\life\Documents\My Games\DoorKickers2\_Matlab\DoorKickersArmory\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.standalone" target-name="Application Compiler">
     <param.appname>DoorKickers2Armory</param.appname>
     <param.icon />
     <param.icons />
@@ -85,7 +85,6 @@
     </fileset.resources>
     <fileset.package>
       <file>${PROJECT_ROOT}\doctrines.csv</file>
-      <file>${PROJECT_ROOT}\gun_length.csv</file>
       <file>${PROJECT_ROOT}\readme.md</file>
       <file>${PROJECT_ROOT}\steam_path.txt</file>
     </fileset.package>
@@ -100,7 +99,6 @@
       <file>${PROJECT_ROOT}\linearInterpolationZero.m</file>
       <file>${PROJECT_ROOT}\loadDoctrineFromCSV.m</file>
       <file>${PROJECT_ROOT}\loadGameData.m</file>
-      <file>${PROJECT_ROOT}\loadGunLength.m</file>
       <file>${PROJECT_ROOT}\parseAmmoXML.m</file>
       <file>${PROJECT_ROOT}\parseAttackXML.m</file>
       <file>${PROJECT_ROOT}\parseDoctrineDataXML.m</file>

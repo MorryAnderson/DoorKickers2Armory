@@ -19,6 +19,8 @@ function [equip_data, doctrine_data, innate_data] = loadGameData(dir_path_of_ste
     xml_files.pistol.ranger        = fullfile(game_data_dir, "equipment", "firearms_pistols.xml"           );
     xml_files.pistol.cia           = fullfile(game_data_dir, "equipment", "firearms_pistols_cia.xml"       );
     xml_files.pistol.swat          = fullfile(game_data_dir, "equipment", "firearms_pistols_nws.xml"       );
+
+    xml_files.various_release      = fullfile(game_data_dir, "equipment", "various_release.xml"            );
     
     xml_files.attacktype           = fullfile(game_data_dir, "equipment", "firearm_attacktypes.xml"        );
     xml_files.attacktype_release   = fullfile(game_data_dir, "equipment", "firearm_attacktypes_release.xml");
@@ -41,6 +43,7 @@ function [equip_data, doctrine_data, innate_data] = loadGameData(dir_path_of_ste
     equip_struct.eqb.pistol.ranger  = parseEqbXML(xml_files.pistol.ranger);
     equip_struct.eqb.pistol.cia     = parseEqbXML(xml_files.pistol.cia   );
     equip_struct.eqb.pistol.swat    = parseEqbXML(xml_files.pistol.swat  );
+
     
     equip_struct.eqb.rifle  = [equip_struct.eqb.rifle.ranger ; ... 
                                equip_struct.eqb.rifle.cia    ; ... 
@@ -51,7 +54,9 @@ function [equip_data, doctrine_data, innate_data] = loadGameData(dir_path_of_ste
                                equip_struct.eqb.pistol.cia   ; ...
                                equip_struct.eqb.pistol.swat] ;
 
-    equip_struct.eqb        = [equip_struct.eqb.rifle ; equip_struct.eqb.pistol];
+    equip_struct.eqb.various_release = parseEqbXML(xml_files.various_release);
+
+    equip_struct.eqb        = [equip_struct.eqb.rifle ; equip_struct.eqb.pistol; equip_struct.eqb.various_release];
     
 
     %% detailed statistics of guns
@@ -75,7 +80,9 @@ function [equip_data, doctrine_data, innate_data] = loadGameData(dir_path_of_ste
                                equip_struct.gun.pistol.cia   ; ...
                                equip_struct.gun.pistol.swat] ;
     
-    equip_struct.gun        = [equip_struct.gun.rifle ; equip_struct.gun.pistol];
+    equip_struct.gun.various_release = parseRiflesXML(xml_files.various_release);
+
+    equip_struct.gun        = [equip_struct.gun.rifle ; equip_struct.gun.pistol; equip_struct.gun.various_release];
     
     %%
     equip_struct.attack = [parseAttackXML(xml_files.attacktype), ...
@@ -89,8 +96,8 @@ function [equip_data, doctrine_data, innate_data] = loadGameData(dir_path_of_ste
     equip_data.scope  = struct2table(equip_struct.scope);
     equip_data.ammo   = struct2table(equip_struct.ammo);
 
-    gun_length_table = loadGunLength(gun_len_csv_file);
-    equip_data.gun   = join(gun_length_table, equip_data.gun, 'Keys', 'name');
+%     gun_length_table = loadGunLength(gun_len_csv_file);  % 暂时不要这个功能
+%     equip_data.gun   = join(gun_length_table, equip_data.gun, 'Keys', 'name');  % 这里不该这么写
 
     %% enemy
     % xml_files.rifles.enemy         = fullfile(game_data_dir, "firearms_enemy.xml"             );

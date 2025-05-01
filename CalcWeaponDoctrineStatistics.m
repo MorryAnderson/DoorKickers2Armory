@@ -34,7 +34,7 @@ function statistics = CalcWeaponDoctrineStatistics( ...
 
 
     %% constant statistics
-    statistics_basic.constant.length                   = gun_info.length                  ;
+%     statistics_basic.constant.length                   = gun_info.length                  ;
     statistics_basic.constant.category                 = gun_info.category                ;
     statistics_basic.constant.moveSpeedModifierPercent = gun_info.moveSpeedModifierPercent;
     statistics_basic.constant.turnSpeedModifierPercent = gun_info.turnSpeedModifierPercent;
